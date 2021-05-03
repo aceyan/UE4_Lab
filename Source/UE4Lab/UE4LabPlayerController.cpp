@@ -13,11 +13,13 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 		UE_LOG(LogTemp, Warning, TEXT("Touch Began"));
 
 		const FVector2D viewPortSize = GEngine->GameViewport->Viewport->GetSizeXY();
-		if (TouchLocation.X >= viewPortSize.X / 2.0)
-		{
-			TouchStart = TouchLocation;
-			TouchPrior = TouchLocation;
-		}
+		FVector2D a = FVector2D(1, 1);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("size: %s"), *viewPortSize.ToString()));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("TouchLocation: %s"), *TouchLocation.ToString()));
+		
+		TouchStart = TouchLocation;
+		TouchPrior = TouchLocation;
+		
 
 	}
 	else if (Type == ETouchType::Ended)
