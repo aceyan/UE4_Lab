@@ -29,6 +29,27 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MoveSpeed")
+		float ProneMoveSpeed = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MoveSpeed")
+		float RunMoveSpeed = 500;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MoveSpeed")
+		float CrouchedMoveSpeed = 200;
+
+	UFUNCTION(BlueprintCallable, Category = "Prone")
+		bool IsProne() const { return _IsProne; }
+	UFUNCTION(BlueprintCallable, Category = "Prone")
+		bool IsGettingUPFromProne() const { return _IsGettingUPFromProne; }
+	UFUNCTION(BlueprintCallable, Category = "Prone")
+		void Prone();
+	UFUNCTION(BlueprintCallable, Category = "Prone")
+		void UnProne();
+
+protected:
+		bool _IsProne = false;
+		bool _IsGettingUPFromProne = true;
+
 protected:
 
 	/** Resets HMD orientation in VR. */

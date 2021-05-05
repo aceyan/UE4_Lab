@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Engine.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AUE4LabCharacter
@@ -33,6 +34,10 @@ AUE4LabCharacter::AUE4LabCharacter()
 	GetCharacterMovement()->AirControl = 0.2f;
 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+
+
+	GetCharacterMovement()->MaxWalkSpeed = RunMoveSpeed;
+	GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchedMoveSpeed;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -133,4 +138,20 @@ void AUE4LabCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AUE4LabCharacter::Prone()
+{
+	 _IsProne = true;  
+	 _IsGettingUPFromProne = false; 
+	 GetCharacterMovement()->MaxWalkSpeed = ProneMoveSpeed;
+	 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("TouchLocation: %f"), GetCharacterMovement()->MaxWalkSpeed));
+		//UE_LOG(LogTemp, Warning, TEXT("Prone"));
+}
+
+void AUE4LabCharacter::UnProne()
+{
+	_IsProne = false;
+	_IsGettingUPFromProne = true;
+	GetCharacterMovement()->MaxWalkSpeed = RunMoveSpeed;
 }
