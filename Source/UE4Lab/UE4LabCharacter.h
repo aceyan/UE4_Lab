@@ -38,6 +38,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MoveSpeed")
 		float CrouchedMoveSpeed = 200;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "Pitch"))
+		float PitchMin = -89.9;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "Pitch"))
+		float PitchMax = 89.9;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "Pitch"))
+		float PronePitchMin = 0.0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "Pitch"))
+		float PronePitchMax = 35;
+
+
 	UFUNCTION(BlueprintCallable, Category = "Prone")
 		bool IsProne() const { return _IsProne; }
 	UFUNCTION(BlueprintCallable, Category = "Prone")
@@ -46,6 +57,7 @@ public:
 		void Prone();
 	UFUNCTION(BlueprintCallable, Category = "Prone")
 		void UnProne();
+
 
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 		void FireStart();

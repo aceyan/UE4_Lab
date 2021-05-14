@@ -58,7 +58,6 @@ AUE4LabCharacter::AUE4LabCharacter()
 	Gun->SetupAttachment(GetMesh(), TEXT("WeaponSocket"));
 
 
-
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
@@ -156,6 +155,9 @@ void AUE4LabCharacter::Prone()
 	 GetCharacterMovement()->MaxWalkSpeed = ProneMoveSpeed;
 	 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("TouchLocation: %f"), GetCharacterMovement()->MaxWalkSpeed));
 		//UE_LOG(LogTemp, Warning, TEXT("Prone"));
+
+	 UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMax = PronePitchMax;
+	 UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMin = PronePitchMin;
 }
 
 void AUE4LabCharacter::UnProne()
@@ -163,6 +165,9 @@ void AUE4LabCharacter::UnProne()
 	_IsProne = false;
 	_IsGettingUPFromProne = true;
 	GetCharacterMovement()->MaxWalkSpeed = RunMoveSpeed;
+
+	UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMax = PitchMax;
+	UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMin = PitchMin;
 }
 
 
