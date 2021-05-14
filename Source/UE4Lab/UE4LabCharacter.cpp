@@ -11,6 +11,8 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimMontage.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Engine.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -210,4 +212,52 @@ void AUE4LabCharacter::Fire()
 	}
 	
 	UGameplayStatics::PlaySoundAtLocation(this, GunSound, GetActorLocation());
+	//
+	if (UKismetSystemLibrary::IsValid(AimingRayHitResult.GetActor()))
+	{//hit actor!
+
+	}
+}
+
+void AUE4LabCharacter::Tick(float DeltaTime)
+{
+	
+	ACharacter::Tick(DeltaTime);
+	//User camera direction for collision checking
+	FVector  CameraFireStartPoint =  FollowCamera->GetComponentLocation();
+	FVector CameraFireDirection = FollowCamera->GetForwardVector();
+
+	FVector CameraFireEndPoint = CameraFireStartPoint + CameraFireDirection * 10000;
+	TArray<AActor*> IgnoreArray;
+	FHitResult HitResultFormCamera;
+
+	bool IsHitFromCamera =  UKismetSystemLibrary::LineTraceSingle(this, CameraFireStartPoint, CameraFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, false, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormCamera, true);
+
+
+	FVector GunFireStartPoint = Gun->GetSocketLocation(TEXT("FireStartPoint"));
+	FVector GunFireDirection;
+	if (IsHitFromCamera)
+	{
+		GunFireDirection = HitResultFormCamera.Location - GunFireStartPoint;
+	}
+	else
+	{
+		GunFireDirection = FollowCamera->GetForwardVector();
+	}
+	FVector GunFireEndPoint = GunFireStartPoint + GunFireDirection * 10000;
+
+	FHitResult HitResultFormGun;
+	bool IsHitFromGun = UKismetSystemLibrary::LineTraceSingle(this, GunFireStartPoint, GunFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, false, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormGun, true, FLinearColor::Green);
+
+	
+	AimingRayHitResult = HitResultFormGun;
+	if (IsHitFromGun)
+	{
+		FireRayHitPoint = HitResultFormGun.Location;
+	}
+	else
+	{
+		FireRayHitPoint = CameraFireEndPoint;
+	}
+
 }

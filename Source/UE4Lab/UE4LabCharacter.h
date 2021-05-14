@@ -22,6 +22,8 @@ class AUE4LabCharacter : public ACharacter
 public:
 	AUE4LabCharacter();
 
+
+	virtual void Tick(float DeltaTime) override;
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -60,7 +62,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "PlayerDimension"))
 		float ProneRadius = 21;
 
-
 	UFUNCTION(BlueprintCallable, Category = "Prone")
 		bool IsProne() const { return _IsProne; }
 	UFUNCTION(BlueprintCallable, Category = "Prone")
@@ -76,6 +77,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 		void FireStop();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire")
+		FVector FireRayHitPoint;//used for drawing aim corsshair
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire")
+		FHitResult AimingRayHitResult;
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
 		class USkeletalMeshComponent * Gun;
@@ -89,6 +94,7 @@ public:
 protected:
 		bool _IsProne = false;
 		bool _IsGettingUPFromProne = true;
+
 
 protected:
 
