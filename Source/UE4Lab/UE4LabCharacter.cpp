@@ -8,6 +8,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimMontage.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -49,6 +52,12 @@ AUE4LabCharacter::AUE4LabCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+	//Create a USkeletalMeshComponent for gun
+	Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun"));
+	Gun->SetupAttachment(GetMesh(), TEXT("WeaponSocket"));
+
+
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -154,4 +163,30 @@ void AUE4LabCharacter::UnProne()
 	_IsProne = false;
 	_IsGettingUPFromProne = true;
 	GetCharacterMovement()->MaxWalkSpeed = RunMoveSpeed;
+}
+
+
+void AUE4LabCharacter::FireStart()
+{
+	Fire();
+}
+
+void AUE4LabCharacter::FireStop()
+{
+
+}
+
+
+void AUE4LabCharacter::Fire()
+{
+	if (_IsProne)
+	{
+		PlayAnimMontage(ProneFireMontage);
+	}
+	else
+	{
+		PlayAnimMontage(FireMontage);
+	}
+	
+	UGameplayStatics::PlaySoundAtLocation(this, GunSound, GetActorLocation());
 }

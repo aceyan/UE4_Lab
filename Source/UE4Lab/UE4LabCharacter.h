@@ -18,6 +18,7 @@ class AUE4LabCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
 public:
 	AUE4LabCharacter();
 
@@ -45,6 +46,21 @@ public:
 		void Prone();
 	UFUNCTION(BlueprintCallable, Category = "Prone")
 		void UnProne();
+
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+		void FireStart();
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+		void FireStop();
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+		class USkeletalMeshComponent * Gun;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+		class UAnimMontage *FireMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+		class UAnimMontage *ProneFireMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+		class USoundBase *GunSound;
 
 protected:
 		bool _IsProne = false;
@@ -89,5 +105,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	void Fire();
 };
 
