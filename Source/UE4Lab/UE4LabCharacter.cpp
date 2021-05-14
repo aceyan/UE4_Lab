@@ -19,7 +19,7 @@
 AUE4LabCharacter::AUE4LabCharacter()
 {
 	// Set size for collision capsule
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(Radius, HalfHeight);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -37,7 +37,7 @@ AUE4LabCharacter::AUE4LabCharacter()
 	GetCharacterMovement()->AirControl = 0.2f;
 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
-
+	GetCharacterMovement()->CrouchedHalfHeight = CrouchedHalfHeight;
 
 	GetCharacterMovement()->MaxWalkSpeed = RunMoveSpeed;
 	GetCharacterMovement()->MaxWalkSpeedCrouched = CrouchedMoveSpeed;
@@ -47,6 +47,7 @@ AUE4LabCharacter::AUE4LabCharacter()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 200.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	CameraBoom->bEnableCameraLag = true;
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -158,6 +159,16 @@ void AUE4LabCharacter::Prone()
 
 	 UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMax = PronePitchMax;
 	 UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMin = PronePitchMin;
+	 //
+
+	 GetCapsuleComponent()->SetCapsuleRadius(ProneRadius);
+	 GetCapsuleComponent()->SetCapsuleHalfHeight(ProneHalfHeight);
+	 GetCapsuleComponent()->SetRelativeLocation(GetCapsuleComponent()->RelativeLocation - FVector(0,0, HalfHeight - ProneHalfHeight));
+	 GetMesh()->SetRelativeLocation(FVector(0, 0, -ProneHalfHeight - 1));
+
+
+	 GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::Printf(TEXT("size: %s"), *GetMesh()->RelativeLocation.ToString()));
+	
 }
 
 void AUE4LabCharacter::UnProne()
@@ -168,6 +179,11 @@ void AUE4LabCharacter::UnProne()
 
 	UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMax = PitchMax;
 	UGameplayStatics::GetPlayerCameraManager(this, 0)->ViewPitchMin = PitchMin;
+
+	GetCapsuleComponent()->SetCapsuleRadius(Radius);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(HalfHeight);
+	GetMesh()->SetRelativeLocation(FVector(0,0,-HalfHeight - 1));
+
 }
 
 

@@ -49,6 +49,18 @@ public:
 		float PronePitchMax = 35;
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "PlayerDimension"))
+		float HalfHeight = 96;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "PlayerDimension"))
+		float Radius = 42;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "PlayerDimension"))
+		float CrouchedHalfHeight = 42;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "PlayerDimension"))
+		float ProneHalfHeight = 21;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Category = "PlayerDimension"))
+		float ProneRadius = 21;
+
+
 	UFUNCTION(BlueprintCallable, Category = "Prone")
 		bool IsProne() const { return _IsProne; }
 	UFUNCTION(BlueprintCallable, Category = "Prone")
