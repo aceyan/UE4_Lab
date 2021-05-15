@@ -25,10 +25,19 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 	else if (Type == ETouchType::Ended)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Touch Ended"));
+		TouchStart = FVector2D::ZeroVector;
+		TouchPrior = FVector2D::ZeroVector;
 	}
 	else if (Type == ETouchType::Moved)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Touch Moved"));
+
+		if (TouchStart.Size() == 0 && TouchPrior.Size() == 0)
+		{
+			TouchStart = TouchLocation;
+			TouchPrior = TouchLocation;
+		}
+
 		float length = FVector2D(TouchLocation - TouchStart).Size();
 
 		if (length >= DistanceThreshold)
