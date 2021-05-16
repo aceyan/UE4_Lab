@@ -7,7 +7,7 @@
 bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
 	
-
+	APlayerController::InputTouch(Handle, Type, TouchLocation, DeviceTimestamp, TouchpadIndex);
 	if (Type == ETouchType::Began)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Touch Began"));
@@ -20,13 +20,14 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 		TouchStart = TouchLocation;
 		TouchPrior = TouchLocation;
 		
-
+		IsTouching = true;
 	}
 	else if (Type == ETouchType::Ended)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Touch Ended"));
 		TouchStart = FVector2D::ZeroVector;
 		TouchPrior = FVector2D::ZeroVector;
+		IsTouching = false;
 	}
 	else if (Type == ETouchType::Moved)
 	{
@@ -36,12 +37,14 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 		{
 			TouchStart = TouchLocation;
 			TouchPrior = TouchLocation;
+			IsTouching = true;
 		}
 
 		float length = FVector2D(TouchLocation - TouchStart).Size();
 
 		if (length >= DistanceThreshold)
 		{
+
 			FVector2D dist = FVector2D(TouchLocation - TouchPrior) * SwipeSpeed;
 
 			UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->AddControllerYawInput(dist.X);

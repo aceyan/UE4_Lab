@@ -191,12 +191,14 @@ void AUE4LabCharacter::UnProne()
 
 void AUE4LabCharacter::FireStart()
 {
-	Fire();
+	IsFiring = true;
+	GetWorld()->GetTimerManager().SetTimer(FireTimerHandle, this, &AUE4LabCharacter::Fire, 0.1, true, 0);
 }
 
 void AUE4LabCharacter::FireStop()
 {
-
+	GetWorld()->GetTimerManager().ClearTimer(FireTimerHandle);
+	IsFiring = false;
 }
 
 

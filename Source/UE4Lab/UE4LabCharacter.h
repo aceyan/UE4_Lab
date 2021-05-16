@@ -81,6 +81,9 @@ public:
 		FVector FireRayHitPoint;//used for drawing aim corsshair
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire")
 		FHitResult AimingRayHitResult;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire")
+		bool IsFiring = false;
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
 		class USkeletalMeshComponent * Gun;
@@ -95,7 +98,7 @@ protected:
 		bool _IsProne = false;
 		bool _IsGettingUPFromProne = true;
 
-
+		FTimerHandle FireTimerHandle;
 protected:
 
 	/** Resets HMD orientation in VR. */

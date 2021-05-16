@@ -24,4 +24,7 @@ public:
 
 	FVector2D TouchStart;
 	FVector2D TouchPrior;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (Category = "TouchInput"))
+		bool IsTouching = false;
 };
