@@ -77,6 +77,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fire")
 		void FireStop();
 
+	UFUNCTION(BlueprintNativeEvent, Category = "Fire")
+		void Fire();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire")
 		FVector FireRayHitPoint;//used for drawing aim corsshair
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire")
@@ -139,6 +142,6 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	void Fire();
+
 };
 

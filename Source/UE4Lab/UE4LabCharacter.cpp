@@ -202,7 +202,7 @@ void AUE4LabCharacter::FireStop()
 }
 
 
-void AUE4LabCharacter::Fire()
+void AUE4LabCharacter::Fire_Implementation()
 {
 	if (_IsProne)
 	{
