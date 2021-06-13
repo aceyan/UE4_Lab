@@ -232,8 +232,13 @@ void AUE4LabCharacter::Tick(float DeltaTime)
 	FVector CameraFireEndPoint = CameraFireStartPoint + CameraFireDirection * 10000;
 	TArray<AActor*> IgnoreArray;
 	FHitResult HitResultFormCamera;
+	FCollisionQueryParams TraceParams;
+	TraceParams.bTraceComplex = true;
+	TraceParams.bReturnFaceIndex = true;
 
-	bool IsHitFromCamera =  UKismetSystemLibrary::LineTraceSingle(this, CameraFireStartPoint, CameraFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, true, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormCamera, true);
+	//bool IsHitFromCamera =  UKismetSystemLibrary::LineTraceSingle(this, CameraFireStartPoint, CameraFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, true, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormCamera, true);
+	bool IsHitFromCamera = GetWorld()->LineTraceSingleByChannel(HitResultFormCamera, CameraFireStartPoint, CameraFireEndPoint, ECollisionChannel::ECC_Visibility,
+		TraceParams);
 
 
 	FVector GunFireStartPoint = Gun->GetSocketLocation(TEXT("FireStartPoint"));
@@ -249,8 +254,9 @@ void AUE4LabCharacter::Tick(float DeltaTime)
 	FVector GunFireEndPoint = GunFireStartPoint + GunFireDirection * 10000;
 
 	FHitResult HitResultFormGun;
-	bool IsHitFromGun = UKismetSystemLibrary::LineTraceSingle(this, GunFireStartPoint, GunFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, false, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormGun, true, FLinearColor::Green);
-
+	//bool IsHitFromGun = UKismetSystemLibrary::LineTraceSingle(this, GunFireStartPoint, GunFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, false, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormGun, true, FLinearColor::Green);
+	bool IsHitFromGun = GetWorld()->LineTraceSingleByChannel(HitResultFormGun, GunFireStartPoint, GunFireEndPoint, ECollisionChannel::ECC_Visibility,
+		TraceParams);
 	
 	AimingRayHitResult = HitResultFormGun;
 	if (IsHitFromGun)
