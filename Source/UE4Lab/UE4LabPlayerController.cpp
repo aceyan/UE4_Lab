@@ -32,7 +32,7 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 	else if (Type == ETouchType::Moved)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Touch Moved"));
-
+		//UE_LOG(LogTemp, Warning, TEXT("test"));
 		if (TouchStart.Size() == 0 && TouchPrior.Size() == 0)
 		{
 			TouchStart = TouchLocation;

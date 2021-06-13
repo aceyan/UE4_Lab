@@ -233,7 +233,7 @@ void AUE4LabCharacter::Tick(float DeltaTime)
 	TArray<AActor*> IgnoreArray;
 	FHitResult HitResultFormCamera;
 
-	bool IsHitFromCamera =  UKismetSystemLibrary::LineTraceSingle(this, CameraFireStartPoint, CameraFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, false, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormCamera, true);
+	bool IsHitFromCamera =  UKismetSystemLibrary::LineTraceSingle(this, CameraFireStartPoint, CameraFireEndPoint, ETraceTypeQuery::TraceTypeQuery1, true, IgnoreArray, EDrawDebugTrace::ForOneFrame, HitResultFormCamera, true);
 
 
 	FVector GunFireStartPoint = Gun->GetSocketLocation(TEXT("FireStartPoint"));
