@@ -10,7 +10,7 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 	APlayerController::InputTouch(Handle, Type, TouchLocation, DeviceTimestamp, TouchpadIndex);
 	if (Type == ETouchType::Began)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Touch Began"));
+		//UE_LOG(LogTemp, Warning, TEXT("Touch Began"));
 
 		const FVector2D viewPortSize = GEngine->GameViewport->Viewport->GetSizeXY();
 		FVector2D a = FVector2D(1, 1);
@@ -24,14 +24,14 @@ bool AUE4LabPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, c
 	}
 	else if (Type == ETouchType::Ended)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Touch Ended"));
+		//UE_LOG(LogTemp, Warning, TEXT("Touch Ended"));
 		TouchStart = FVector2D::ZeroVector;
 		TouchPrior = FVector2D::ZeroVector;
 		IsTouching = false;
 	}
 	else if (Type == ETouchType::Moved)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Touch Moved"));
+		//UE_LOG(LogTemp, Warning, TEXT("Touch Moved"));
 		//UE_LOG(LogTemp, Warning, TEXT("test"));
 		if (TouchStart.Size() == 0 && TouchPrior.Size() == 0)
 		{
